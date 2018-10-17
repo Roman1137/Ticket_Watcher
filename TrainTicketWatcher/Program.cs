@@ -9,18 +9,9 @@ using OpenQA.Selenium.Chrome;
 
 namespace TrainTicketWatcher
 {
-    public class CustomResponse
-    {
-        public HttpStatusCode StatusCode { get; set; }
-        public string ResponseContent { get; set; }
-        public override string ToString()
-        {
-            return $"Status code: {this.StatusCode}\r\nContent: {this.ResponseContent}";
-        }
-    }
     class Program
     {
-        static async Task<CustomResponse> PostRequest(string url, dynamic userInput)
+        static async Task<CustomResponse> PostRequest(string url, InputData userInput)
         {
             IEnumerable<KeyValuePair<string, string>> queries = new List<KeyValuePair<string, string>>()
             {
@@ -53,26 +44,40 @@ namespace TrainTicketWatcher
 
         static void Main(string[] args)
         {
-            Console.WriteLine("Введите поле from");
-            string from = Console.ReadLine();
-            Console.WriteLine("Введите поле to");
-            string to = Console.ReadLine();
-            Console.WriteLine("Введите поле date в формате 2018-10-19");
-            string date = Console.ReadLine();
-            Console.WriteLine("Введите поле time в формате 00:00");
-            string time = Console.ReadLine();
-            Console.WriteLine("Введите интервал паузы в формате 5000");
-            string pause = Console.ReadLine();
+            Console.SetWindowSize(120,35);
+            InputData data = JsonSerializer.GetDataFromFile();
 
-            var userInput = new {From = from, To = to, Date = date, Time = time};
+            if (data.IsEmpty)
+            {
+                data = InputData.GetDataFromUser();
+                JsonSerializer.WriteDataToFile(data);
+            }
+            else
+            {
+                Console.WriteLine($"Использовать данные из файла?\r\n{data.ToString()}\r\nИли записать новые?\r\n" +
+                                  $"Введите yes - Использовать данные из файла, no - Записать новые данные");
+                var answer = Console.ReadLine();
+                if (answer == "no")
+                {
+                    data = InputData.GetDataFromUser();
+                    Console.WriteLine("Записать новые данные в файл?\r\n Введите yes- да, no - нет.");
+                    var writeDateToFile = Console.ReadLine();
+                    if (writeDateToFile == "yes")
+                    {
+                        JsonSerializer.WriteDataToFile(data);
+                    }
+                }
+            }
+            
             CustomResponse response;
             do
             {
 
-                Thread.Sleep(Int32.Parse(pause));
+                Thread.Sleep(Int32.Parse(data.PauseTimeout));
                 Console.Clear();
 
-                response = PostRequest("https://booking.uz.gov.ua/ru/train_search/", userInput).Result;        
+                Console.WriteLine(data.ToString());
+                response = PostRequest("https://booking.uz.gov.ua/ru/train_search/", data).Result;        
             } while (response.StatusCode != HttpStatusCode.OK ||
                      response.ResponseContent == null ||
                      response.ResponseContent.Contains(@"warning: ""По заданному Вами направлению мест нет""") ||
@@ -81,11 +86,11 @@ namespace TrainTicketWatcher
             var driver = new ChromeDriver();
             driver.Url =
                 $"https://booking.uz.gov.ua/ru/?" +
-                $"from={userInput.From}" +
-                $"&to={userInput.To}" +
-                $"&date={userInput.Date}" +
-                $"&time={userInput.Time.Split(':').First()}" +
-                $"%3A{userInput.Time.Split(':').Last()}&url=train-list";
+                $"from={data.From}" +
+                $"&to={data.To}" +
+                $"&date={data.Date}" +
+                $"&time={data.Time.Split(':').First()}" +
+                $"%3A{data.Time.Split(':').Last()}&url=train-list";
 
 
             var ts = new CancellationTokenSource();
@@ -97,12 +102,12 @@ namespace TrainTicketWatcher
                     Console.Beep();
                     if (ct.IsCancellationRequested)
                     {
-                        // another thread decided to cancel
                         break;
                     }
                 }
             }, ct);
 
+            Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine("Для остановки звукового сигнала НАЖМИТЕ ПРОБЛЕЛ и ENTER");
             var stop = Console.ReadLine();
             if (stop != null)
