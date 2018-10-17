@@ -1,0 +1,14 @@
+C:\Users\Пользователь\source\repos\TrainTicketWatcher\TrainTicketWatcher\bin\Debug\TrainTicketWatcher.exe.config
+C:\Users\Пользователь\source\repos\TrainTicketWatcher\TrainTicketWatcher\bin\Debug\TrainTicketWatcher.exe
+C:\Users\Пользователь\source\repos\TrainTicketWatcher\TrainTicketWatcher\bin\Debug\TrainTicketWatcher.pdb
+C:\Users\Пользователь\source\repos\TrainTicketWatcher\TrainTicketWatcher\bin\Debug\System.Net.Http.dll
+C:\Users\Пользователь\source\repos\TrainTicketWatcher\TrainTicketWatcher\bin\Debug\System.Security.Cryptography.Algorithms.dll
+C:\Users\Пользователь\source\repos\TrainTicketWatcher\TrainTicketWatcher\bin\Debug\System.Security.Cryptography.Encoding.dll
+C:\Users\Пользователь\source\repos\TrainTicketWatcher\TrainTicketWatcher\bin\Debug\System.Security.Cryptography.Primitives.dll
+C:\Users\Пользователь\source\repos\TrainTicketWatcher\TrainTicketWatcher\bin\Debug\System.Security.Cryptography.X509Certificates.dll
+C:\Users\Пользователь\source\repos\TrainTicketWatcher\TrainTicketWatcher\obj\Debug\TrainTicketWatcher.csproj.CoreCompileInputs.cache
+C:\Users\Пользователь\source\repos\TrainTicketWatcher\TrainTicketWatcher\obj\Debug\TrainTicketWatcher.csproj.CopyComplete
+C:\Users\Пользователь\source\repos\TrainTicketWatcher\TrainTicketWatcher\obj\Debug\TrainTicketWatcher.exe
+C:\Users\Пользователь\source\repos\TrainTicketWatcher\TrainTicketWatcher\obj\Debug\TrainTicketWatcher.pdb
+C:\Users\Пользователь\source\repos\TrainTicketWatcher\TrainTicketWatcher\bin\Debug\WebDriver.dll
+C:\Users\Пользователь\source\repos\TrainTicketWatcher\TrainTicketWatcher\bin\Debug\WebDriver.xml
