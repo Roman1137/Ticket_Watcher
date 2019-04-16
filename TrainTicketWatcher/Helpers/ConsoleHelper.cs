@@ -9,8 +9,8 @@ namespace TrainTicketWatcher.Helpers
     {
         public static UserInput GetUserInput()
         {
-        
-            Console.WriteLine("Ente 'from' field");
+
+            Console.WriteLine("Enter 'from' field");
             string from = Console.ReadLine();
 
             Console.WriteLine("Enter 'to' field");
@@ -25,12 +25,18 @@ namespace TrainTicketWatcher.Helpers
             Console.WriteLine("Enter pause interval in format: 5000");
             string pause = Console.ReadLine();
 
-            // for debugging
-            //var userInput = new {From = "2200001", To = "2218000", Date = "2019-04-19", Time = "00:00"};
-            //string pause = "1000";
-            //for debugging
+            Console.WriteLine("Enter desired types of places. For example: плацкарт,купе,люкс");
+            string placeTypes = Console.ReadLine();
 
-            return new UserInput {From = from, To = to, Date = date, Time = time, Pause = Int32.Parse(pause)};
+            return new UserInput
+            {
+                From = from,
+                To = to,
+                Date = date,
+                Time = time,
+                PauseTimeout = Int32.Parse(pause),
+                DesiredPlaceTypes = placeTypes
+            };
         }
 
         public static CancellationTokenSource StartSound()
@@ -63,8 +69,29 @@ namespace TrainTicketWatcher.Helpers
             }
         }
 
+        public static bool AskUserToUseDataFromFile(UserInput dataFromFile)
+        {
+            Console.WriteLine($"Use data from file 'Data.json'?\r\n{dataFromFile.ToString()}\r\nOr use another data?\r\n\n" +
+                               $"Enter 'yes' or 'no' WITHOUT Quotation mark.\r\n" +
+                               $"'yes' means using data from 'Data.json' file.\r\n" +
+                               $"'no' means using new data and possibility to write it to file.\r\n");
+            var useDataFromFile = Console.ReadLine();
+
+            return useDataFromFile.ToLowerInvariant() == "yes";
+        }
+
+        public static bool AskUserToWriteEnteredDataToFile()
+        {
+            Console.WriteLine("Write new data to file?\r\nEnter 'yes' or 'no' WITHOUT Quotation mark.");
+            var writeDateToFile = Console.ReadLine();
+
+            return writeDateToFile.ToLowerInvariant() == "yes";
+        }
+
         public static void WaitMilliseconds(int timeMilliseconds) => Thread.Sleep(timeMilliseconds);
 
         public static void Clear() => Console.Clear();
+
+        public static void SetWindowSize(int width, int height) => Console.SetWindowSize(120, 35);
     }
 }

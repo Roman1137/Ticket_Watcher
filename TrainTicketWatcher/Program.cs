@@ -2,6 +2,7 @@
 using TrainTicketWatcher.ApiClient;
 using TrainTicketWatcher.Helpers;
 using TrainTicketWatcher.models.Response;
+using TrainTicketWatcher.models.UserInput;
 
 namespace TrainTicketWatcher
 {
@@ -9,27 +10,37 @@ namespace TrainTicketWatcher
     {
         static void Main(string[] args)
         {
-            Console.SetWindowSize(120,35);
-            InputData data = JsonSerializer.GetDataFromFile();
+            ConsoleHelper.SetWindowSize(120,35);
+            UserInput tripDataToUse = null;
 
-            if (data.IsEmpty)
+            UserInput tripDataFromFile = FileHelper.GetDataFromFile();
+            if (tripDataFromFile.IsEmpty)
             {
-                data = InputData.GetDataFromUser();
-                JsonSerializer.WriteDataToFile(data);
+                var tripDataFromUser = ConsoleHelper.GetUserInput();
+                tripDataToUse = tripDataFromUser;
+                
+                var writeEnteredDataToFile = ConsoleHelper.AskUserToWriteEnteredDataToFile();
+                if (writeEnteredDataToFile)
+                {
+                    FileHelper.WriteDataToFile(tripDataFromUser);
+                }
             }
             else
             {
-                Console.WriteLine($"Использовать данные из файла?\r\n{data.ToString()}\r\nИли записать новые?\r\n" +
-                                  $"Введите yes - Использовать данные из файла, no - Записать новые данные");
-                var answer = Console.ReadLine();
-                if (answer == "no")
+                var useDataFromFile = ConsoleHelper.AskUserToUseDataFromFile(tripDataFromFile);
+                if (useDataFromFile)
                 {
-                    data = InputData.GetDataFromUser();
-                    Console.WriteLine("Записать новые данные в файл?\r\n Введите yes- да, no - нет.");
-                    var writeDateToFile = Console.ReadLine();
-                    if (writeDateToFile == "yes")
+                    tripDataToUse = tripDataFromFile;
+                }
+                else
+                {
+                    var dataFromUser = ConsoleHelper.GetUserInput();
+                    tripDataToUse = dataFromUser;
+
+                    var writeEnteredDataToFile = ConsoleHelper.AskUserToWriteEnteredDataToFile();
+                    if (writeEnteredDataToFile)
                     {
-                        JsonSerializer.WriteDataToFile(data);
+                        FileHelper.WriteDataToFile(dataFromUser);
                     }
                 }
             }
@@ -38,15 +49,15 @@ namespace TrainTicketWatcher
 
             do
             {
-                ConsoleHelper.WaitMilliseconds(userInput.Pause);
+                ConsoleHelper.WaitMilliseconds(tripDataToUse.PauseTimeout);
                 ConsoleHelper.Clear();
 
-                response = new ApliClient().PostRequest("https://booking.uz.gov.ua/ru/train_search/", userInput).Result;
+                response = new ApliClient().PostRequest("https://booking.uz.gov.ua/ru/train_search/", tripDataToUse).Result;
 
-            } while (response.IsUnsuccessfulResponse || !response.IsKupePlaceLeft);
+            } while (response.IsUnsuccessfulResponse || !response.IsFreePlacePresentByTypes(tripDataToUse.DesiredPlaceTypes));
 
 
-            BrowserHelper.OpenPageWithTickers(userInput);
+            BrowserHelper.OpenPageWithTickers(tripDataToUse);
 
             var cancellationToken = ConsoleHelper.StartSound();
             ConsoleHelper.StopSoundByUserInput(cancellationToken);

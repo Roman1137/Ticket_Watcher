@@ -11,9 +11,22 @@ namespace TrainTicketWatcher.models.Response
         public ResponseFullModel ResponseFullModel { get; set; }
         public bool IsUnsuccessfulResponse => StatusCode != HttpStatusCode.OK || ResponseContent == null;
         public bool IsNoPlaceLeftAtAll => ResponseContent.Contains(@"warning: ""По заданному Вами направлению мест нет""") || !ResponseContent.Contains("places");
-        public bool IsKupePlaceLeft => ResponseFullModel.Data.List.Any(listItem => listItem.Types.Any(type => type.Title == "Купе"));
-        public bool IsPlatscartPlaceLeft => ResponseFullModel.Data.List.Any(listItem => listItem.Types.Any(type => type.Title == "Плацкарт"));
-        public bool IsLuxPlaceLeft => ResponseFullModel.Data.List.Any(listItem => listItem.Types.Any(type => type.Title == "Люкс"));
+
+        public bool IsFreePlacePresentByTypes(string desiredTypes)
+        {
+            string[] desiredTypesList = desiredTypes.Split(',');
+            var isFreePlace = false;
+
+            foreach (var desiredType in desiredTypesList)
+            {
+                isFreePlace = isFreePlace ||
+                              ResponseFullModel.Data.List.Any(listItem =>
+                                                                         listItem.Types.Any(type => 
+                                                                                                   type.Title.ToLowerInvariant() == desiredType.Trim().ToLowerInvariant()));
+            }
+
+            return isFreePlace;
+        } 
 
         public override string ToString()
         {

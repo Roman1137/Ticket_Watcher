@@ -1,4 +1,6 @@
-﻿using OpenQA.Selenium.Chrome;
+﻿using System.Collections.Generic;
+using System.Linq;
+using OpenQA.Selenium.Chrome;
 
 namespace TrainTicketWatcher.Helpers
 {
@@ -6,14 +8,16 @@ namespace TrainTicketWatcher.Helpers
     {
         public static void OpenPageWithTickers(dynamic userInput)
         {
+            var timeSplit = new List<string>(userInput.Time.Split(':'));
+
             var driver = new ChromeDriver();
             driver.Url =
                 $"https://booking.uz.gov.ua/ru/?" +
                 $"from={userInput.From}" +
                 $"&to={userInput.To}" +
                 $"&date={userInput.Date}" +
-                $"&time={userInput.Time.Split(':').First()}" +
-                $"%3A{userInput.Time.Split(':').Last()}&url=train-list";
+                $"&time={timeSplit.First()}" +
+                $"%3A{timeSplit.Last()}&url=train-list";
         }
     }
 }
