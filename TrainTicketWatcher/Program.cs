@@ -9,8 +9,31 @@ namespace TrainTicketWatcher
     {
         static void Main(string[] args)
         {
-            var userInput = ConsoleHelper.GetUserInput();
+            Console.SetWindowSize(120,35);
+            InputData data = JsonSerializer.GetDataFromFile();
 
+            if (data.IsEmpty)
+            {
+                data = InputData.GetDataFromUser();
+                JsonSerializer.WriteDataToFile(data);
+            }
+            else
+            {
+                Console.WriteLine($"Использовать данные из файла?\r\n{data.ToString()}\r\nИли записать новые?\r\n" +
+                                  $"Введите yes - Использовать данные из файла, no - Записать новые данные");
+                var answer = Console.ReadLine();
+                if (answer == "no")
+                {
+                    data = InputData.GetDataFromUser();
+                    Console.WriteLine("Записать новые данные в файл?\r\n Введите yes- да, no - нет.");
+                    var writeDateToFile = Console.ReadLine();
+                    if (writeDateToFile == "yes")
+                    {
+                        JsonSerializer.WriteDataToFile(data);
+                    }
+                }
+            }
+            
             CustomResponse response;
 
             do
