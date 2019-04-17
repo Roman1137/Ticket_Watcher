@@ -9,7 +9,7 @@ namespace TrainTicketWatcher.models.Response
         public HttpStatusCode StatusCode { get; set; }
         public string ResponseContent { get; set; }
         public ResponseFullModel ResponseFullModel { get; set; }
-        public bool IsServiceUnAvailable => ResponseContent.Contains("Сервис не доступен");
+        public bool IsServiceUnAvailable => ResponseContent.ToLowerInvariant().Contains("приносим свои");
         public bool IsUnsuccessfulResponse => StatusCode != HttpStatusCode.OK || ResponseContent == null;
         public bool IsNoPlaceLeftAtAll => ResponseContent.Contains(@"warning: ""По заданному Вами направлению мест нет""") || !ResponseContent.Contains("places");
 
