@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
+using TrainTicketWatcher.Helpers;
 using TrainTicketWatcher.models.Request;
 using TrainTicketWatcher.models.Response;
 
@@ -23,10 +24,17 @@ namespace TrainTicketWatcher.ApiClient
                         {
                             StatusCode = responseMessage.StatusCode,
                             ResponseContent = await content.ReadAsStringAsync(),
-                            ResponseFullModel = await content.ReadAsAsync<ResponseFullModel>()
                         };
 
                         Console.WriteLine(customResponse.ToString());
+                        if (!customResponse.IsServiceUnAvailable)
+                        {
+                            customResponse.ResponseFullModel = await content.ReadAsAsync<ResponseFullModel>();
+                        }
+                        else
+                        {
+                            ConsoleHelper.WaitMilliseconds(20000);
+                        }
 
                         return customResponse;
                     }
