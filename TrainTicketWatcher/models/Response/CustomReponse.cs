@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Net;
 using TrainTicketWatcher.models.Request;
 
@@ -15,20 +16,20 @@ namespace TrainTicketWatcher.models.Response
 
         public bool IsFreePlacePresentByTypes(UserInput.UserInput userInput)
         {
-            var desiredTypes = userInput.DesiredPlaceTypes;
             var trainNumbers = userInput.TrainNumbers.Split(',');
+            string[] desiredTypesList = userInput.DesiredPlaceTypes.Split(',');
 
-            string[] desiredTypesList = desiredTypes.Split(',');
+            Func<ListItemModel, bool> trainNumberMatch = listItem => trainNumbers.Contains(listItem.Num);
+
             var isFreePlace = false;
-
             foreach (var desiredType in desiredTypesList)
             {
-                isFreePlace = isFreePlace ||
-                              ResponseFullModel.Data.List
-                                  .Where(listItem => trainNumbers.Contains(listItem.Num))
-                                  .Any(listItem => 
-                                            listItem.Types.Any(type => 
-                                                                type.Title.ToLowerInvariant() == desiredType.Trim().ToLowerInvariant()));
+                Func<TypeModel, bool> seatTypeAndCountMatch = type => type.Title.ToLowerInvariant() == desiredType.Trim().ToLowerInvariant() 
+                                                                      && int.Parse(type.Places) >= userInput.PlacesCount;
+
+                isFreePlace = isFreePlace || ResponseFullModel.Data.List
+                                  .Where(trainNumberMatch)
+                                  .Any(listItem => listItem.Types.Any(seatTypeAndCountMatch));
             }
 
             return isFreePlace;

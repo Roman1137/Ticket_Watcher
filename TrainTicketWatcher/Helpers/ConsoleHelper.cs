@@ -31,6 +31,9 @@ namespace TrainTicketWatcher.Helpers
             Console.WriteLine("Enter train numbers. For example: 002Д,705K,715К - using Russian symbols");
             string trainNumber = Console.ReadLine();
 
+            Console.WriteLine("Enter count of places");
+            int placesCount = int.Parse(Console.ReadLine());
+
             return new UserInput
             {
                 From = from,
@@ -39,7 +42,8 @@ namespace TrainTicketWatcher.Helpers
                 Time = time,
                 PauseTimeout = Int32.Parse(pause),
                 DesiredPlaceTypes = placeTypes,
-                TrainNumbers = trainNumber
+                TrainNumbers = trainNumber,
+                PlacesCount = placesCount
             };
         }
 

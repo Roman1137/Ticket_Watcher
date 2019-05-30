@@ -29,7 +29,6 @@ C:\education\Ticket_Watcher\TrainTicketWatcher\obj\Debug\TrainTicketWatcher.exe
 C:\education\Ticket_Watcher\TrainTicketWatcher\obj\Debug\TrainTicketWatcher.pdb
 C:\education\Ticket_Watcher\TrainTicketWatcher\bin\Debug\Newtonsoft.Json.dll
 C:\education\Ticket_Watcher\TrainTicketWatcher\bin\Debug\Newtonsoft.Json.xml
-C:\project\Ticket_Watcher\TrainTicketWatcher\obj\Debug\TrainTicketWatcher.csprojAssemblyReference.cache
 C:\project\Ticket_Watcher\TrainTicketWatcher\obj\Debug\TrainTicketWatcher.csproj.CoreCompileInputs.cache
 C:\project\Ticket_Watcher\TrainTicketWatcher\obj\Debug\TrainTicketWatcher.exe
 C:\project\Ticket_Watcher\TrainTicketWatcher\obj\Debug\TrainTicketWatcher.pdb
