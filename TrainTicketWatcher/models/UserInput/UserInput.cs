@@ -33,8 +33,8 @@ namespace TrainTicketWatcher.models.UserInput
                    $"Time              = {this.Time}\r\n" +
                    $"PauseTimeout      = {this.PauseTimeout}\r\n" +
                    $"DesiredPlaceTypes = {this.DesiredPlaceTypes}\r\n" +
-                   $"PlacesCount       = {this.PlacesCount}\r\n" +
-                   $"TrainNumbers      = {this.TrainNumbers}\r\n";
+                   $"TrainNumbers      = {this.TrainNumbers}\r\n" +
+                   $"PlacesCount       = {this.PlacesCount}\r\n";
         }
     }
 }
