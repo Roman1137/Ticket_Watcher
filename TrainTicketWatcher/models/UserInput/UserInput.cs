@@ -17,6 +17,8 @@ namespace TrainTicketWatcher.models.UserInput
         public int PauseTimeout { get; set; }
         [DataMember]
         public string DesiredPlaceTypes { get; set; }
+        [DataMember]
+        public string TrainNumbers { get; set; }
 
 
         public bool IsEmpty => From == null;
@@ -28,7 +30,8 @@ namespace TrainTicketWatcher.models.UserInput
                    $"Date              = {this.Date}\r\n" +
                    $"Time              = {this.Time}\r\n" +
                    $"PauseTimeout      = {this.PauseTimeout}\r\n" +
-                   $"DesiredPlaceTypes = {this.DesiredPlaceTypes}\r\n";
+                   $"DesiredPlaceTypes = {this.DesiredPlaceTypes}\r\n" +
+                   $"TrainNumbers      = {this.TrainNumbers}\r\n";
         }
     }
 }

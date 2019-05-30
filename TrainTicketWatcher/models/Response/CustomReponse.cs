@@ -13,17 +13,22 @@ namespace TrainTicketWatcher.models.Response
         public bool IsUnsuccessfulResponse => StatusCode != HttpStatusCode.OK || ResponseContent == null;
         public bool IsNoPlaceLeftAtAll => ResponseContent.Contains(@"warning: ""По заданному Вами направлению мест нет""") || !ResponseContent.Contains("places");
 
-        public bool IsFreePlacePresentByTypes(string desiredTypes)
+        public bool IsFreePlacePresentByTypes(UserInput.UserInput userInput)
         {
+            var desiredTypes = userInput.DesiredPlaceTypes;
+            var trainNumbers = userInput.TrainNumbers.Split(',');
+
             string[] desiredTypesList = desiredTypes.Split(',');
             var isFreePlace = false;
 
             foreach (var desiredType in desiredTypesList)
             {
                 isFreePlace = isFreePlace ||
-                              ResponseFullModel.Data.List.Any(listItem =>
-                                                                         listItem.Types.Any(type => 
-                                                                                                   type.Title.ToLowerInvariant() == desiredType.Trim().ToLowerInvariant()));
+                              ResponseFullModel.Data.List
+                                  .Where(listItem => trainNumbers.Contains(listItem.Num))
+                                  .Any(listItem => 
+                                            listItem.Types.Any(type => 
+                                                                type.Title.ToLowerInvariant() == desiredType.Trim().ToLowerInvariant()));
             }
 
             return isFreePlace;

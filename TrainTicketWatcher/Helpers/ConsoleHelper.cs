@@ -28,6 +28,9 @@ namespace TrainTicketWatcher.Helpers
             Console.WriteLine("Enter desired types of places. For example: плацкарт,купе,люкс");
             string placeTypes = Console.ReadLine();
 
+            Console.WriteLine("Enter train numbers. For example: 002Д,705K,715К - using Russian symbols");
+            string trainNumber = Console.ReadLine();
+
             return new UserInput
             {
                 From = from,
@@ -35,7 +38,8 @@ namespace TrainTicketWatcher.Helpers
                 Date = date,
                 Time = time,
                 PauseTimeout = Int32.Parse(pause),
-                DesiredPlaceTypes = placeTypes
+                DesiredPlaceTypes = placeTypes,
+                TrainNumbers = trainNumber
             };
         }
 
