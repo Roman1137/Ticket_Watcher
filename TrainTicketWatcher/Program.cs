@@ -56,13 +56,9 @@ namespace TrainTicketWatcher
                     ConsoleHelper.WaitMilliseconds(tripDataToUse.PauseTimeout);
                     ConsoleHelper.Clear();
 
-<<<<<<< HEAD
-            } while (response.IsUnsuccessfulResponse || !response.IsFreePlacePresentByTypes(tripDataToUse.DesiredPlaceTypes));
-=======
                     response = new ApliClient().PostRequest("https://booking.uz.gov.ua/ru/train_search/", tripDataToUse).Result;
->>>>>>> 446e62d... added  writing logs to file implementation
 
-                } while (response.IsUnsuccessfulResponse || !response.IsFreePlacePresentByTypes(tripDataToUse));
+                } while (response.IsUnsuccessfulResponse || !response.IsFreePlacePresentByTypes(tripDataToUse.DesiredPlaceTypes));
             }
             catch (Exception e)
             {
