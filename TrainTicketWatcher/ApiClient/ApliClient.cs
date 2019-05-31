@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Serilog;
+using Serilog.Core;
 using TrainTicketWatcher.Helpers;
 using TrainTicketWatcher.models.Request;
 using TrainTicketWatcher.models.Response;
@@ -27,6 +29,7 @@ namespace TrainTicketWatcher.ApiClient
                         };
 
                         Console.WriteLine(customResponse.ToString());
+                        Log.Debug(customResponse.ToString());
                         if (!customResponse.IsServiceUnAvailable)
                         {
                             customResponse.ResponseFullModel = await content.ReadAsAsync<ResponseFullModel>();
