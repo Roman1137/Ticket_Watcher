@@ -46,3 +46,9 @@ C:\project\Ticket_Watcher\TrainTicketWatcher\bin\Debug\WebDriver.dll
 C:\project\Ticket_Watcher\TrainTicketWatcher\bin\Debug\Newtonsoft.Json.xml
 C:\project\Ticket_Watcher\TrainTicketWatcher\bin\Debug\WebDriver.xml
 C:\project\Ticket_Watcher\TrainTicketWatcher\obj\Debug\TrainTicketWatcher.csproj.CopyComplete
+C:\project\Ticket_Watcher\TrainTicketWatcher\obj\Debug\TrainTicketWatcher.csprojAssemblyReference.cache
+C:\project\Ticket_Watcher\TrainTicketWatcher\bin\Debug\Serilog.dll
+C:\project\Ticket_Watcher\TrainTicketWatcher\bin\Debug\Serilog.Sinks.File.dll
+C:\project\Ticket_Watcher\TrainTicketWatcher\bin\Debug\Serilog.pdb
+C:\project\Ticket_Watcher\TrainTicketWatcher\bin\Debug\Serilog.xml
+C:\project\Ticket_Watcher\TrainTicketWatcher\bin\Debug\Serilog.Sinks.File.xml

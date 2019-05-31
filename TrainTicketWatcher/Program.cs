@@ -1,4 +1,5 @@
 ﻿using System;
+using Serilog;
 using TrainTicketWatcher.ApiClient;
 using TrainTicketWatcher.Helpers;
 using TrainTicketWatcher.models.Response;
@@ -10,6 +11,7 @@ namespace TrainTicketWatcher
     {
         static void Main(string[] args)
         {
+            FileHelper.InitializeFileLogger();
             ConsoleHelper.SetWindowSize(120,35);
             UserInput tripDataToUse = null;
 
@@ -47,15 +49,27 @@ namespace TrainTicketWatcher
             
             CustomResponse response;
 
-            do
+            try
             {
-                ConsoleHelper.WaitMilliseconds(tripDataToUse.PauseTimeout);
-                ConsoleHelper.Clear();
+                do
+                {
+                    ConsoleHelper.WaitMilliseconds(tripDataToUse.PauseTimeout);
+                    ConsoleHelper.Clear();
 
-                response = new ApliClient().PostRequest("https://booking.uz.gov.ua/ru/train_search/", tripDataToUse).Result;
-
+<<<<<<< HEAD
             } while (response.IsUnsuccessfulResponse || !response.IsFreePlacePresentByTypes(tripDataToUse.DesiredPlaceTypes));
+=======
+                    response = new ApliClient().PostRequest("https://booking.uz.gov.ua/ru/train_search/", tripDataToUse).Result;
+>>>>>>> 446e62d... added  writing logs to file implementation
 
+                } while (response.IsUnsuccessfulResponse || !response.IsFreePlacePresentByTypes(tripDataToUse));
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                Log.Debug(e.Message);
+                throw;
+            }
 
             BrowserHelper.OpenPageWithTickers(tripDataToUse);
 

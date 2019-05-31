@@ -1,6 +1,8 @@
 ﻿using System;
 using System.IO;
 using System.Runtime.Serialization.Json;
+using Serilog;
+using Serilog.Events;
 using TrainTicketWatcher.models.UserInput;
 
 namespace TrainTicketWatcher.Helpers
@@ -40,6 +42,14 @@ namespace TrainTicketWatcher.Helpers
                     throw;
                 }
             }
+        }
+
+        public static void InitializeFileLogger()
+        {
+            Log.Logger = new LoggerConfiguration()
+                .MinimumLevel.Is(LogEventLevel.Debug)
+                .WriteTo.File("ticket_watcher.logs")
+                .CreateLogger();
         }
     }
 }
