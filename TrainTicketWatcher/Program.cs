@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using Serilog;
 using TrainTicketWatcher.ApiClient;
 using TrainTicketWatcher.Helpers;
@@ -48,31 +49,29 @@ namespace TrainTicketWatcher
             }
             
             CustomResponse response;
-
-            try
+            while (true)
             {
-                do
+                try
                 {
-                    ConsoleHelper.WaitMilliseconds(tripDataToUse.PauseTimeout);
-                    ConsoleHelper.Clear();
+                    do
+                    {
+                        ConsoleHelper.WaitMilliseconds(tripDataToUse.PauseTimeout);
+                        ConsoleHelper.Clear();
 
-                    response = new ApliClient().PostRequest("https://booking.uz.gov.ua/ru/train_search/", tripDataToUse).Result;
+                        response = new ApliClient().PostRequest("https://booking.uz.gov.ua/ru/train_search/", tripDataToUse).Result;
 
-                } while (response.IsUnsuccessfulResponse || !response.IsFreePlacePresentByTypes(tripDataToUse));
+                    } while (response.IsUnsuccessfulResponse || !response.IsFreePlacePresentByTypes(tripDataToUse));
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    Log.Debug(e.Message);
+                    throw;
+                }
+
+                EmailHelper.NotifyByEmail(response);
+                Thread.Sleep(TimeSpan.FromMinutes(2));
             }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                Log.Debug(e.Message);
-                throw;
-            }
-
-            BrowserHelper.OpenPageWithTickers(tripDataToUse);
-
-            var cancellationToken = ConsoleHelper.StartSound();
-            ConsoleHelper.StopSoundByUserInput(cancellationToken);
-
-            Console.ReadLine();
         }
     }
 }

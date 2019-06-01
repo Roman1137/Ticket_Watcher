@@ -76,6 +76,7 @@
     <Compile Include="Helpers\BrowserHelper.cs" />
     <Compile Include="Helpers\ConsoleHelper.cs" />
     <Compile Include="ApiClient\HttpContentExtension.cs" />
+    <Compile Include="Helpers\EmailHelper.cs" />
     <Compile Include="Helpers\FileHelper.cs" />
     <Compile Include="models\Request\ChildModel.cs" />
     <Compile Include="models\Request\FromModel.cs" />
