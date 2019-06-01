@@ -60,7 +60,9 @@ namespace TrainTicketWatcher
 
                         response = new ApliClient().PostRequest("https://booking.uz.gov.ua/ru/train_search/", tripDataToUse).Result;
 
-                    } while (response.IsServiceUnAvailable || response.IsUnsuccessfulResponse || !response.IsFreePlacePresentByTypes(tripDataToUse));
+                    } while (response.IsServiceUnAvailable 
+                             || response.IsUnsuccessfulResponse ||
+                             !response.IsFreePlacePresentByTypes(tripDataToUse));
                 }
                 catch (Exception e)
                 {
