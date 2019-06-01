@@ -17,9 +17,9 @@ namespace TrainTicketWatcher.Helpers
             // создаем объект сообщения
             MailMessage m = new MailMessage(from, to);
             // тема письма
-            m.Subject = "Тест";
+            m.Subject = "Нашлись билеты";
             // текст письма
-            m.Body = $"<h2>Привет, кабанам! Вот что нашлось: {customResponse}</h2>";
+            m.Body = $"<h2>Привет, кабанам! Вот что нашлось: {customResponse.ResponseFullModel.Data.List}</h2>";
             // письмо представляет код html
             m.IsBodyHtml = true;
             // адрес smtp-сервера и порт, с которого будем отправлять письмо

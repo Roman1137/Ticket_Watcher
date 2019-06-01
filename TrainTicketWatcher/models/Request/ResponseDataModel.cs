@@ -6,5 +6,6 @@ namespace TrainTicketWatcher.models.Request
     {
         public List<ListItemModel> List { get; set; }
         public string Warning { get; set; }
+        //TODO override ToString method
     }
 }
